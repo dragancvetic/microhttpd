@@ -4,7 +4,6 @@
 #include <microhttpd.h>
 #include <stdio.h>
 #include <string.h>
-#include <iostream>
 
 #define PORT 8888
 
@@ -17,12 +16,10 @@ int answer_to_connection (void *cls, struct MHD_Connection *connection,
     const char *page  = "<html><body>Hello, Megi you don't love meeeee!</body></html>";
 //    const char *page  = "Hello, Megi you don't love meeeee!";
 
-    struct MHD_Response *response;
-    int ret;
-    std::string str((char*)cls);
+  struct MHD_Response *response;
+  int ret;
 
-    std::cout << "string is " << str << std::endl;
-    std::cout << "New " << method << " request for " << url << " using version " << version << std::endl;
+  printf ("New %s request for %s using version %s\n", method, url, version);
 
     response = MHD_create_response_from_buffer (strlen (page),
             (void*) page, MHD_RESPMEM_PERSISTENT);
