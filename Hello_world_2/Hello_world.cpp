@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <string.h>
 
-// just testing git on eclipse
 #define PORT 8888
 
 int answer_to_connection (void *cls, struct MHD_Connection *connection,
@@ -20,6 +19,7 @@ int answer_to_connection (void *cls, struct MHD_Connection *connection,
   struct MHD_Response *response;
   int ret;
 
+  printf ("string %s\n", (char *)cls);
   printf ("New %s request for %s using version %s\n", method, url, version);
 
   response = MHD_create_response_from_buffer (strlen (page),
@@ -31,18 +31,18 @@ int answer_to_connection (void *cls, struct MHD_Connection *connection,
   return ret;
 }
 
-int main ()
+int main (int argc, char *argv[])
 {
-  struct MHD_Daemon *daemon;
+    struct MHD_Daemon *daemon;
+    daemon = MHD_start_daemon (MHD_USE_SELECT_INTERNALLY, PORT, NULL, NULL,
+            &answer_to_connection, argv[1], MHD_OPTION_END);
 
-  daemon = MHD_start_daemon (MHD_USE_SELECT_INTERNALLY, PORT, NULL, NULL,
-                             &answer_to_connection, NULL, MHD_OPTION_END);
-  if (NULL == daemon) return 1;
+    if (NULL == daemon) return 1;
 
-  getchar();
+    getchar();
 
-  MHD_stop_daemon (daemon);
-  return 0;
+    MHD_stop_daemon (daemon);
+    return 0;
 }
 
 
